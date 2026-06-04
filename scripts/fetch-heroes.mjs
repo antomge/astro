@@ -11,6 +11,7 @@ const SUBJECTS = {
   'milky-way.jpg': 'Milky Way',
   'orion.jpg': 'Orion Nebula',
   'andromeda.jpg': 'Andromeda Galaxy',
+  'pleiades.jpg': 'Pleiades star cluster',
 };
 
 async function fetchJson(url) {

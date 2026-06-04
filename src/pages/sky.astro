@@ -1,0 +1,45 @@
+---
+import Layout from '../components/Layout.astro';
+import SkyMap from '../components/SkyMap.tsx';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../i18n/utils';
+import type { SkyObject, SkyLabels } from '../lib/skymap';
+
+const lang = 'fr' as const;
+const t = useTranslations(lang);
+
+const all = await getCollection('objects');
+const objects: SkyObject[] = all
+  .filter((e) => e.data.featuredOnSkyMap && e.data.skyCoords)
+  .map((e) => ({
+    slug: e.id,
+    type: e.data.type,
+    title: e.data.title[lang],
+    summary: e.data.summary[lang],
+    deepDive: e.data.deepDive[lang],
+    observingTips: e.data.observingTips?.[lang],
+    image: e.data.image,
+    imageCredit: e.data.imageCredit,
+    ra: e.data.skyCoords!.raHours * 15,
+    dec: e.data.skyCoords!.decDeg,
+  }));
+
+const labels: SkyLabels = {
+  deepDive: t('atlas.deepDive'),
+  observingTips: t('atlas.observing'),
+  close: t('ui.close'),
+  hint: t('sky.hint'),
+  objectsHeading: t('sky.objects'),
+  mapLabel: t('sky.maplabel'),
+};
+---
+
+<Layout lang={lang} title={`${t('site.name')} — ${t('nav.skymap')}`}>
+  <section class="mx-auto max-w-6xl px-6 pb-24 pt-28">
+    <h1 class="font-display text-4xl text-starlight md:text-5xl">{t('nav.skymap')}</h1>
+    <p class="mt-4 max-w-2xl text-muted">{t('sky.intro')}</p>
+    <div class="mt-8">
+      <SkyMap client:load objects={objects} labels={labels} />
+    </div>
+  </section>
+</Layout>

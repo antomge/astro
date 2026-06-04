@@ -19,6 +19,13 @@ export const ui = {
     'phase.waningGibbous': 'Gibbeuse décroissante',
     'phase.lastQuarter': 'Dernier quartier',
     'phase.waningCrescent': 'Dernier croissant',
+    'sky.intro': "Promenez-vous dans le ciel : glissez pour vous déplacer, la molette pour zoomer. Cliquez sur un objet remarquable (anneaux cyan) ou choisissez-le dans la liste.",
+    'sky.hint': 'Glissez pour explorer · molette pour zoomer · cliquez un objet cyan',
+    'sky.objects': 'Objets remarquables',
+    'sky.maplabel': 'Carte du ciel interactive',
+    'atlas.deepDive': 'Pour aller plus loin',
+    'atlas.observing': "Conseils d'observation",
+    'ui.close': 'Fermer',
   },
   en: {
     'site.name': 'Nocturne',
@@ -37,6 +44,13 @@ export const ui = {
     'phase.waningGibbous': 'Waning Gibbous',
     'phase.lastQuarter': 'Last Quarter',
     'phase.waningCrescent': 'Waning Crescent',
+    'sky.intro': 'Wander the night sky: drag to move, scroll to zoom. Click a featured object (cyan rings) or pick it from the list.',
+    'sky.hint': 'Drag to explore · scroll to zoom · click a cyan object',
+    'sky.objects': 'Featured objects',
+    'sky.maplabel': 'Interactive sky map',
+    'atlas.deepDive': 'Going further',
+    'atlas.observing': 'Observing tips',
+    'ui.close': 'Close',
   },
 } as const;
 
