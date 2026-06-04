@@ -1,0 +1,32 @@
+---
+import { useTranslations, localizedPath } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const pathname = Astro.url.pathname;
+
+const otherLang: Lang = lang === 'fr' ? 'en' : 'fr';
+const switchHref = localizedPath(pathname, otherLang);
+const homeHref = lang === 'fr' ? '/' : '/en/';
+---
+
+<header class="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-sm">
+  <a href={homeHref} class="font-display text-xl tracking-wide text-starlight">
+    {t('site.name')}
+  </a>
+  <nav class="flex items-center gap-6 text-sm text-muted">
+    <a href={homeHref} class="hover:text-stellar">{t('nav.home')}</a>
+    <a
+      href={switchHref}
+      class="rounded border border-white/15 px-2 py-1 text-starlight hover:border-stellar hover:text-stellar"
+      hreflang={otherLang}
+    >
+      {otherLang.toUpperCase()}
+    </a>
+  </nav>
+</header>
