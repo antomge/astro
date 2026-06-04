@@ -1,0 +1,15 @@
+---
+import Layout from './Layout.astro';
+import Liftoff from './sections/Liftoff.astro';
+import LunarSection from './sections/LunarSection.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('site.name')} — ${t('nav.home')}`}>
+  <Liftoff lang={lang} />
+  <LunarSection lang={lang} />
+</Layout>

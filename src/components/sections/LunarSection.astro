@@ -1,0 +1,36 @@
+---
+import { useTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import type { PhaseKey } from '../../lib/astronomy';
+import MoonPhase from '../MoonPhase.tsx';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+
+const phaseLabels: Record<PhaseKey, string> = {
+  new: t('phase.new'),
+  waxingCrescent: t('phase.waxingCrescent'),
+  firstQuarter: t('phase.firstQuarter'),
+  waxingGibbous: t('phase.waxingGibbous'),
+  full: t('phase.full'),
+  waningGibbous: t('phase.waningGibbous'),
+  lastQuarter: t('phase.lastQuarter'),
+  waningCrescent: t('phase.waningCrescent'),
+};
+---
+
+<section class="flex min-h-screen flex-col items-center justify-center gap-10 px-6 py-24 text-center md:flex-row md:gap-20 md:text-left">
+  <div class="max-w-md">
+    <p class="mb-4 text-sm uppercase tracking-[0.3em] text-stellar">
+      {t('station.moon.kicker')}
+    </p>
+    <h2 class="text-4xl text-starlight md:text-5xl">{t('station.moon.title')}</h2>
+    <p class="mt-6 text-lg text-muted">{t('station.moon.body')}</p>
+  </div>
+  <MoonPhase
+    client:load
+    title={t('moon.title')}
+    illuminationLabel={t('moon.illumination')}
+    phaseLabels={phaseLabels}
+  />
+</section>
