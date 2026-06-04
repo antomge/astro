@@ -35,3 +35,6 @@ Thumbs.db
 # Playwright output
 test-results/
 playwright-report/
+
+# Downloaded hero images (regenerate via: node scripts/fetch-heroes.mjs)
+public/images/stations/
