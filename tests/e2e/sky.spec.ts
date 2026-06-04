@@ -9,10 +9,15 @@ test('French sky map loads with the canvas and featured-object buttons', async (
 
 test('selecting a featured object opens and closes the info panel', async ({ page }) => {
   await page.goto('/sky');
-  await page.getByRole('button', { name: 'Orion' }).click();
-  await expect(page.getByText('Pour aller plus loin')).toBeVisible();
+  const orion = page.getByRole('button', { name: 'Orion' });
+  // Retry the click until React (client:load) has hydrated and the dialog opens.
+  await expect(async () => {
+    await orion.click();
+    await expect(page.getByRole('dialog')).toBeVisible({ timeout: 1000 });
+  }).toPass();
+  await expect(page.getByRole('dialog').getByText('Pour aller plus loin')).toBeVisible();
   await page.getByRole('button', { name: 'Fermer' }).click();
-  await expect(page.getByText('Pour aller plus loin')).toBeHidden();
+  await expect(page.getByRole('dialog')).toBeHidden();
 });
 
 test('English sky map renders and lists the featured objects', async ({ page }) => {

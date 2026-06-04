@@ -28,7 +28,7 @@ export default function SkyInfoPanel({ object, labels, onClose }: Props) {
         type="button"
         onClick={onClose}
         aria-label={labels.close}
-        className="absolute right-4 top-4 text-xl text-muted hover:text-stellar"
+        className="absolute right-4 top-4 z-10 text-xl text-muted hover:text-stellar"
       >
         ✕
       </button>
