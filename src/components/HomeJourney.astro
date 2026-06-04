@@ -1,15 +1,29 @@
 ---
 import Layout from './Layout.astro';
-import Liftoff from './sections/Liftoff.astro';
-import LunarSection from './sections/LunarSection.astro';
+import Starfield from './Starfield.tsx';
+import Station from './Station.astro';
+import { stations } from '../data/journey';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
 const { lang } = Astro.props as { lang: Lang };
 const t = useTranslations(lang);
+const ordered = [...stations].sort((a, b) => a.order - b.order);
 ---
 
 <Layout lang={lang} title={`${t('site.name')} — ${t('nav.home')}`}>
-  <Liftoff lang={lang} />
-  <LunarSection lang={lang} />
+  <Starfield client:idle />
+
+  <!-- Barre de progression du voyage -->
+  <div class="fixed left-0 top-0 z-40 h-0.5 w-full bg-transparent">
+    <div data-progress class="h-full origin-left scale-x-0 bg-stellar"></div>
+  </div>
+
+  <div class="journey">
+    {ordered.map((station) => <Station station={station} lang={lang} />)}
+  </div>
 </Layout>
+
+<script>
+  import '../scripts/journey';
+</script>
