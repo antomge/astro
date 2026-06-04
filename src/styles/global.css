@@ -1,1 +1,47 @@
 @import "tailwindcss";
+
+@theme {
+  /* Palette espace profond */
+  --color-space: #05070d;
+  --color-space-800: #0a0e1a;
+  --color-space-700: #121829;
+  --color-starlight: #e8edf7;
+  --color-muted: #9aa6bf;
+
+  /* Accents lumineux */
+  --color-stellar: #7fd8ff; /* cyan stellaire */
+  --color-ember: #ffb673;   /* ambre chaud */
+
+  /* Typographies */
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-space);
+  color: var(--color-starlight);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Respect de l'accessibilité : animations réduites */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
