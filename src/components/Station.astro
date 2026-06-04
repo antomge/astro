@@ -1,0 +1,87 @@
+---
+import { useTranslations } from '../i18n/utils';
+import { localize, type Station } from '../data/journey';
+import type { Lang } from '../i18n/ui';
+import type { PhaseKey } from '../lib/astronomy';
+import MoonPhase from './MoonPhase.tsx';
+
+interface Props {
+  station: Station;
+  lang: Lang;
+}
+
+const { station, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const isFirst = station.order === 0;
+const heroSrc = station.hero ? `/images/stations/${station.hero}` : undefined;
+
+// Libellés du widget Lune (uniquement si la station l'utilise)
+const phaseLabels: Record<PhaseKey, string> = {
+  new: t('phase.new'),
+  waxingCrescent: t('phase.waxingCrescent'),
+  firstQuarter: t('phase.firstQuarter'),
+  waxingGibbous: t('phase.waxingGibbous'),
+  full: t('phase.full'),
+  waningGibbous: t('phase.waningGibbous'),
+  lastQuarter: t('phase.lastQuarter'),
+  waningCrescent: t('phase.waningCrescent'),
+};
+---
+
+<section
+  data-station={station.id}
+  id={station.id}
+  class="station relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-24"
+>
+  <!-- Fond procédural (toujours présent) + photo héros optionnelle par-dessus -->
+  <div
+    data-anim="bg"
+    class="absolute inset-0 -z-[1]"
+    style={`background: linear-gradient(to bottom, ${station.gradient[0]}, ${station.gradient[1]});`}
+  >
+    {heroSrc && (
+      <img
+        src={heroSrc}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        class="h-full w-full object-cover opacity-40 mix-blend-screen"
+      />
+    )}
+  </div>
+
+  <div data-anim="content" class="mx-auto flex max-w-5xl flex-col items-center gap-8 text-center md:flex-row md:items-center md:justify-between md:text-left">
+    <div class="max-w-xl">
+      <p class="mb-4 text-sm uppercase tracking-[0.3em] text-stellar">
+        {localize(station.kicker, lang)}
+      </p>
+      {isFirst ? (
+        <h1 class="text-5xl text-starlight md:text-7xl">{localize(station.title, lang)}</h1>
+      ) : (
+        <h2 class="text-4xl text-starlight md:text-5xl">{localize(station.title, lang)}</h2>
+      )}
+      <p class="mt-6 text-lg text-muted">{localize(station.body, lang)}</p>
+
+      {station.fact && (
+        <aside class="mt-8 border-l-2 border-ember/60 pl-4 text-left">
+          <p class="text-xs uppercase tracking-widest text-ember">{lang === 'fr' ? 'Le saviez-vous ?' : 'Did you know?'}</p>
+          <p class="mt-1 text-sm text-starlight/90">{localize(station.fact, lang)}</p>
+        </aside>
+      )}
+    </div>
+
+    {station.widget === 'moon' && (
+      <MoonPhase
+        client:load
+        title={t('moon.title')}
+        illuminationLabel={t('moon.illumination')}
+        phaseLabels={phaseLabels}
+      />
+    )}
+  </div>
+
+  {station.heroCredit && (
+    <p class="absolute bottom-3 right-4 text-[10px] text-muted/60">© {station.heroCredit}</p>
+  )}
+</section>
