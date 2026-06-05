@@ -25,6 +25,11 @@ export const ui = {
     'sky.maplabel': 'Carte du ciel interactive',
     'atlas.deepDive': 'Pour aller plus loin',
     'atlas.observing': "Conseils d'observation",
+    'type.moon': 'Satellite',
+    'type.planet': 'Planète',
+    'type.nebula': 'Nébuleuse',
+    'type.galaxy': 'Galaxie',
+    'type.star': 'Amas / Étoile',
     'ui.close': 'Fermer',
   },
   en: {
@@ -50,6 +55,11 @@ export const ui = {
     'sky.maplabel': 'Interactive sky map',
     'atlas.deepDive': 'Going further',
     'atlas.observing': 'Observing tips',
+    'type.moon': 'Moon',
+    'type.planet': 'Planet',
+    'type.nebula': 'Nebula',
+    'type.galaxy': 'Galaxy',
+    'type.star': 'Cluster / Star',
     'ui.close': 'Close',
   },
 } as const;

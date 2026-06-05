@@ -1,0 +1,42 @@
+---
+import { existsSync } from 'node:fs';
+import { getCollection } from 'astro:content';
+import Layout from '../../../components/Layout.astro';
+import { useTranslations } from '../../../i18n/utils';
+import type { Lang, UIKey } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const objects = await getCollection('objects');
+  return objects.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const lang: Lang = 'en';
+const { entry } = Astro.props;
+const t = useTranslations(lang);
+const d = entry.data;
+const heroSrc = existsSync(`public${d.image}`) ? d.image : undefined;
+const typeLabel = t(`type.${d.type}` as UIKey);
+---
+
+<Layout lang={lang} title={`${d.title[lang]} — ${t('site.name')}`} description={d.summary[lang]}>
+  <article class="mx-auto max-w-3xl px-6 pb-24 pt-28">
+    <a href="/en/atlas" class="text-sm text-stellar hover:underline">← {t('nav.atlas')}</a>
+    <p class="mt-6 text-xs uppercase tracking-[0.3em] text-stellar">{typeLabel}</p>
+    <h1 class="mt-2 font-display text-5xl text-starlight">{d.title[lang]}</h1>
+    {heroSrc && (
+      <figure class="mt-8">
+        <img src={heroSrc} alt="" class="w-full rounded-lg object-cover" />
+        <figcaption class="mt-1 text-[10px] text-muted/70">© {d.imageCredit}</figcaption>
+      </figure>
+    )}
+    <p class="mt-8 text-lg text-muted">{d.summary[lang]}</p>
+    <h2 class="mt-10 text-sm uppercase tracking-widest text-stellar">{t('atlas.deepDive')}</h2>
+    <p class="mt-2 text-starlight/90">{d.deepDive[lang]}</p>
+    {d.observingTips && (
+      <>
+        <h2 class="mt-10 text-sm uppercase tracking-widest text-ember">{t('atlas.observing')}</h2>
+        <p class="mt-2 text-starlight/90">{d.observingTips[lang]}</p>
+      </>
+    )}
+  </article>
+</Layout>
