@@ -120,7 +120,7 @@ export default function SkyMap({ objects, labels }: Props) {
       lastX = e.clientX;
       lastY = e.clientY;
       const view = viewRef.current;
-      view.centerRa -= (dx / view.scale) * 60;
+      view.centerRa += (dx / view.scale) * 60;
       view.centerDec = Math.max(-89, Math.min(89, view.centerDec + (dy / view.scale) * 60));
       scheduleDraw();
     };
