@@ -39,7 +39,7 @@ interface Props {
 
 export default function SkyMap({ objects, labels, lang }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const viewRef = useRef({ centerRa: 90, centerDec: 20, scale: 340 });
+  const viewRef = useRef({ centerRa: 90, centerDec: 20, scale: 340, targetScale: 340 });
   const sizeRef = useRef({ width: 0, height: 0 });
   const bgRef = useRef({ x: 0, y: 0 }); // background drift / parallax offset
   const [selected, setSelected] = useState<SkyObject | null>(null);
@@ -167,7 +167,12 @@ export default function SkyMap({ objects, labels, lang }: Props) {
 
     let raf = 0;
     const render = (t: number) => {
-      if (!reduce) {
+      const view = viewRef.current;
+      if (reduce) {
+        view.scale = view.targetScale;
+      } else {
+        // ease the zoom toward its target ("loose in / loose out")
+        view.scale += (view.targetScale - view.scale) * 0.16;
         // slow continuous drift => "travelling through the stars"
         bgRef.current.x -= 0.06;
         bgRef.current.y -= 0.02;
@@ -214,7 +219,8 @@ export default function SkyMap({ objects, labels, lang }: Props) {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       const view = viewRef.current;
-      view.scale = Math.max(140, Math.min(1500, view.scale * (e.deltaY < 0 ? 1.1 : 0.9)));
+      // proportional to wheel delta (smooth on trackpad & mouse); render() eases toward it
+      view.targetScale = Math.max(120, Math.min(2800, view.targetScale * Math.exp(-e.deltaY * 0.0015)));
     };
     const onClick = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
