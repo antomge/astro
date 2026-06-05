@@ -3,7 +3,14 @@ import starsJson from '../../src/data/sky/stars.json';
 import constellationsJson from '../../src/data/sky/constellations.json';
 
 const stars = starsJson as { ra: number; dec: number; mag: number; name?: string }[];
-const constellations = constellationsJson as { name: string; lines: number[][][] }[];
+const constellations = constellationsJson as {
+  abbr: string;
+  fr: string;
+  en: string;
+  rank: number;
+  label: [number, number] | null;
+  lines: number[][][];
+}[];
 
 describe('sky catalog data', () => {
   it('has a non-trivial number of bright stars within valid bounds', () => {
@@ -28,5 +35,19 @@ describe('sky catalog data', () => {
     const poly = c.lines[0];
     expect(Array.isArray(poly)).toBe(true);
     expect(poly[0]).toHaveLength(2);
+  });
+
+  it('gives every constellation a bilingual name and a label position', () => {
+    for (const c of constellations) {
+      expect(typeof c.fr).toBe('string');
+      expect(c.fr.length).toBeGreaterThan(0);
+      expect(typeof c.en).toBe('string');
+      expect(c.en.length).toBeGreaterThan(0);
+      if (c.label) {
+        expect(c.label).toHaveLength(2);
+        expect(c.label[0]).toBeGreaterThanOrEqual(0);
+        expect(c.label[0]).toBeLessThan(360);
+      }
+    }
   });
 });

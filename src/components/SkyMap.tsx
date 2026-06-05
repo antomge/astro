@@ -1,15 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { project, type Viewport, type SkyObject, type SkyLabels } from '../lib/skymap';
 import { generateStars } from '../lib/starfield';
+import type { Lang } from '../i18n/ui';
 import SkyInfoPanel from './SkyInfoPanel.tsx';
 import starsJson from '../data/sky/stars.json';
 import constellationsJson from '../data/sky/constellations.json';
 
 interface CatalogStar { ra: number; dec: number; mag: number; name?: string }
-interface Constellation { name: string; lines: number[][][] }
+interface Constellation {
+  abbr: string;
+  fr: string;
+  en: string;
+  rank: number;
+  label: [number, number] | null;
+  lines: number[][][];
+}
 
 const catalog = starsJson as CatalogStar[];
-const constellations = constellationsJson as Constellation[];
+const constellations = constellationsJson as unknown as Constellation[];
 
 // Immersive procedural depth starfield (independent of the real catalog) — gives
 // the "inside a galaxy / travelling through the stars" feeling behind the map.
@@ -26,9 +34,10 @@ const nebulae = [
 interface Props {
   objects: SkyObject[];
   labels: SkyLabels;
+  lang: Lang;
 }
 
-export default function SkyMap({ objects, labels }: Props) {
+export default function SkyMap({ objects, labels, lang }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const viewRef = useRef({ centerRa: 90, centerDec: 20, scale: 340 });
   const sizeRef = useRef({ width: 0, height: 0 });
@@ -135,6 +144,25 @@ export default function SkyMap({ objects, labels }: Props) {
         ctx.arc(p.x, p.y, 9, 0, Math.PI * 2);
         ctx.stroke();
       }
+
+      // constellation names (minor ones only once zoomed in, to avoid clutter)
+      const showMinor = v.scale > 600;
+      ctx.fillStyle = 'rgba(255, 182, 115, 0.7)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+      ctx.shadowBlur = 4;
+      for (const c of constellations) {
+        if (!c.label) continue;
+        if (c.rank >= 3 && !showMinor) continue;
+        const p = project(c.label[0], c.label[1], v);
+        if (!p.visible) continue;
+        ctx.font = `italic ${c.rank <= 1 ? 16 : 13}px "Cormorant Garamond", Georgia, serif`;
+        ctx.fillText(lang === 'fr' ? c.fr : c.en, p.x, p.y);
+      }
+      ctx.shadowBlur = 0;
+      ctx.textAlign = 'start';
+      ctx.textBaseline = 'alphabetic';
     };
 
     let raf = 0;
@@ -224,7 +252,7 @@ export default function SkyMap({ objects, labels }: Props) {
       canvas.removeEventListener('click', onClick);
       window.removeEventListener('resize', onResize);
     };
-  }, [objects]);
+  }, [objects, lang]);
 
   return (
     <>
