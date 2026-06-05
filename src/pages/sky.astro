@@ -37,11 +37,11 @@ const labels: SkyLabels = {
 ---
 
 <Layout lang={lang} title={`${t('site.name')} — ${t('nav.skymap')}`} description={t('sky.intro')}>
-  <section class="mx-auto max-w-6xl px-6 pb-24 pt-28">
-    <h1 class="font-display text-4xl text-starlight md:text-5xl">{t('nav.skymap')}</h1>
-    <p class="mt-4 max-w-2xl text-muted">{t('sky.intro')}</p>
-    <div class="mt-8">
-      <SkyMap client:load objects={objects} labels={labels} />
-    </div>
-  </section>
+  <div class="pointer-events-none fixed inset-x-0 top-20 z-30 px-6">
+    <h1 class="font-display text-3xl text-starlight md:text-4xl [text-shadow:0_2px_12px_rgba(0,0,0,0.75)]">
+      {t('nav.skymap')}
+    </h1>
+    <p class="mt-2 max-w-md text-sm text-muted [text-shadow:0_2px_12px_rgba(0,0,0,0.75)]">{t('sky.intro')}</p>
+  </div>
+  <SkyMap client:load objects={objects} labels={labels} />
 </Layout>

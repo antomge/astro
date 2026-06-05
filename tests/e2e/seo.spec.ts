@@ -10,7 +10,7 @@ test('home exposes canonical, hreflang and Open Graph meta', async ({ page }) =>
 test('the mobile menu toggles open', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 800 });
   await page.goto('/');
-  const toggle = page.getByRole('button', { name: 'Menu' });
+  const toggle = page.getByRole('banner').getByRole('button', { name: 'Menu' });
   await expect(toggle).toBeVisible();
   const atlasLink = page.getByRole('navigation').getByRole('link', { name: /Atlas/ });
   await expect(atlasLink).toBeHidden();
