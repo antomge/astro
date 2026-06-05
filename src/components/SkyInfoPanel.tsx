@@ -57,6 +57,12 @@ export default function SkyInfoPanel({ object, labels, onClose }: Props) {
           <p className="mt-1 text-sm text-starlight/90">{object.observingTips}</p>
         </>
       )}
+      <a
+        href={`${labels.atlasBase}/${object.slug}`}
+        className="mt-6 inline-block rounded border border-stellar/40 px-3 py-1 text-sm text-stellar hover:bg-stellar/10"
+      >
+        {labels.viewFull}
+      </a>
     </aside>
   );
 }

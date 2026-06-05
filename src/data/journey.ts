@@ -22,6 +22,8 @@ export interface Station {
   fact?: Localized;
   /** contenu interactif spécial ; seule la Lune l'utilise pour l'instant */
   widget?: 'moon';
+  /** slug de la fiche Atlas associée (lien « Approfondir ») */
+  atlasSlug?: string;
 }
 
 export function localize(value: Localized, lang: Lang): string {
@@ -57,6 +59,7 @@ export const stations: Station[] = [
     hero: 'moon.jpg',
     heroCredit: 'NASA',
     widget: 'moon',
+    atlasSlug: 'la-lune',
     fact: {
       fr: 'La Lune s’éloigne de la Terre d’environ 3,8 cm par an.',
       en: 'The Moon drifts away from Earth by about 3.8 cm per year.',
@@ -91,6 +94,7 @@ export const stations: Station[] = [
     gradient: ['#1a1320', '#0d1622'],
     hero: 'milky-way.jpg',
     heroCredit: 'NASA',
+    atlasSlug: 'pleiades',
     fact: {
       fr: 'La lumière de l’étoile Polaire que vous voyez ce soir est partie il y a environ 430 ans.',
       en: 'The light from Polaris you see tonight left the star about 430 years ago.',
@@ -108,6 +112,7 @@ export const stations: Station[] = [
     gradient: ['#0d1622', '#181024'],
     hero: 'orion.jpg',
     heroCredit: 'NASA',
+    atlasSlug: 'orion',
     fact: {
       fr: 'La nébuleuse d’Orion est visible à l’œil nu : c’est la « tache » floue sous les trois étoiles du baudrier.',
       en: 'The Orion Nebula is visible to the naked eye: the fuzzy "patch" below the three belt stars.',
@@ -125,6 +130,7 @@ export const stations: Station[] = [
     gradient: ['#181024', '#05070d'],
     hero: 'andromeda.jpg',
     heroCredit: 'NASA',
+    atlasSlug: 'andromede',
     fact: {
       fr: 'Andromède contient environ mille milliards d’étoiles — quatre fois plus que notre Voie lactée.',
       en: 'Andromeda holds about a trillion stars — four times more than our Milky Way.',

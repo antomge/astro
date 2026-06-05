@@ -36,6 +36,8 @@ export interface SkyLabels {
   hint: string;
   objectsHeading: string;
   mapLabel: string;
+  atlasBase: string;
+  viewFull: string;
 }
 
 const D2R = Math.PI / 180;

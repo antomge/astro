@@ -75,6 +75,14 @@ const phaseLabels: Record<PhaseKey, string> = {
           <p class="mt-1 text-sm text-starlight/90">{localize(station.fact, lang)}</p>
         </aside>
       )}
+      {station.atlasSlug && (
+        <a
+          href={lang === 'fr' ? `/atlas/${station.atlasSlug}` : `/en/atlas/${station.atlasSlug}`}
+          class="mt-6 inline-block text-sm text-stellar hover:underline"
+        >
+          {t('station.more')} →
+        </a>
+      )}
     </div>
 
     {station.widget === 'moon' && (

@@ -33,6 +33,8 @@ export const ui = {
     'type.nebula': 'Nébuleuse',
     'type.galaxy': 'Galaxie',
     'type.star': 'Amas / Étoile',
+    'sky.viewFull': 'Voir la fiche complète',
+    'station.more': 'Approfondir',
     'ui.close': 'Fermer',
   },
   en: {
@@ -66,6 +68,8 @@ export const ui = {
     'type.nebula': 'Nebula',
     'type.galaxy': 'Galaxy',
     'type.star': 'Cluster / Star',
+    'sky.viewFull': 'View full entry',
+    'station.more': 'Go deeper',
     'ui.close': 'Close',
   },
 } as const;
