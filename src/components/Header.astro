@@ -14,6 +14,7 @@ const otherLang: Lang = lang === 'fr' ? 'en' : 'fr';
 const switchHref = localizedPath(pathname, otherLang);
 const homeHref = lang === 'fr' ? '/' : '/en/';
 const skyHref = lang === 'fr' ? '/sky' : '/en/sky';
+const atlasHref = lang === 'fr' ? '/atlas' : '/en/atlas';
 ---
 
 <header class="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-sm">
@@ -23,6 +24,7 @@ const skyHref = lang === 'fr' ? '/sky' : '/en/sky';
   <nav class="flex items-center gap-6 text-sm text-muted">
     <a href={homeHref} class="hover:text-stellar">{t('nav.home')}</a>
     <a href={skyHref} class="hover:text-stellar">{t('nav.skymap')}</a>
+    <a href={atlasHref} class="hover:text-stellar">{t('nav.atlas')}</a>
     <a
       href={switchHref}
       class="rounded border border-white/15 px-2 py-1 text-starlight hover:border-stellar hover:text-stellar"

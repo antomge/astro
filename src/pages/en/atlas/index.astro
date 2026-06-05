@@ -1,0 +1,55 @@
+---
+import { existsSync } from 'node:fs';
+import { getCollection } from 'astro:content';
+import Layout from '../../../components/Layout.astro';
+import { useTranslations } from '../../../i18n/utils';
+import type { Lang, UIKey } from '../../../i18n/ui';
+
+const lang: Lang = 'en';
+const t = useTranslations(lang);
+
+const objects = (await getCollection('objects')).sort((a, b) =>
+  a.data.title[lang].localeCompare(b.data.title[lang]),
+);
+const facts = await getCollection('facts');
+---
+
+<Layout lang={lang} title={`${t('nav.atlas')} — ${t('site.name')}`} description={t('atlas.intro')}>
+  <section class="mx-auto max-w-6xl px-6 pb-24 pt-28">
+    <h1 class="font-display text-4xl text-starlight md:text-5xl">{t('nav.atlas')}</h1>
+    <p class="mt-4 max-w-2xl text-muted">{t('atlas.intro')}</p>
+
+    <h2 class="mt-12 text-sm uppercase tracking-widest text-stellar">{t('atlas.allObjects')}</h2>
+    <ul class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {objects.map((e) => {
+        const heroSrc = existsSync(`public${e.data.image}`) ? e.data.image : undefined;
+        return (
+          <li>
+            <a
+              href={`/en/atlas/${e.id}`}
+              class="group block overflow-hidden rounded-lg border border-white/10 bg-space-800 transition hover:border-stellar/50"
+            >
+              {heroSrc && (
+                <img src={heroSrc} alt="" class="h-40 w-full object-cover opacity-80 transition group-hover:opacity-100" />
+              )}
+              <div class="p-4">
+                <p class="text-xs uppercase tracking-widest text-stellar">{t(`type.${e.data.type}` as UIKey)}</p>
+                <h3 class="mt-1 font-display text-2xl text-starlight">{e.data.title[lang]}</h3>
+                <p class="mt-2 line-clamp-3 text-sm text-muted">{e.data.summary[lang]}</p>
+              </div>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+
+    <h2 class="mt-16 text-sm uppercase tracking-widest text-ember">{t('atlas.facts')}</h2>
+    <ul class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+      {facts.map((f) => (
+        <li class="rounded-lg border-l-2 border-ember/60 bg-space-800/50 p-4 text-sm text-starlight/90">
+          {f.data.text[lang]}
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
