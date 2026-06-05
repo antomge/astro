@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../components/Layout.astro';
+import { useTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+const lang: Lang = 'en';
+const t = useTranslations(lang);
+
+const terms = (await getCollection('glossary')).sort((a, b) =>
+  a.data.term[lang].localeCompare(b.data.term[lang]),
+);
+---
+
+<Layout lang={lang} title={`${t('nav.glossary')} — ${t('site.name')}`} description={t('glossary.intro')}>
+  <section class="mx-auto max-w-3xl px-6 pb-24 pt-28">
+    <h1 class="font-display text-4xl text-starlight md:text-5xl">{t('nav.glossary')}</h1>
+    <p class="mt-4 max-w-2xl text-muted">{t('glossary.intro')}</p>
+    <dl class="mt-10 space-y-6">
+      {terms.map((e) => (
+        <div class="border-b border-white/10 pb-6">
+          <dt class="font-display text-2xl text-starlight">{e.data.term[lang]}</dt>
+          <dd class="mt-2 text-muted">{e.data.definition[lang]}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+</Layout>

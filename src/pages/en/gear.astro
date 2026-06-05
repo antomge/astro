@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../components/Layout.astro';
+import { useTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+const lang: Lang = 'en';
+const t = useTranslations(lang);
+
+const rank: Record<string, number> = { beginner: 0, intermediate: 1 };
+const items = (await getCollection('equipment')).sort(
+  (a, b) =>
+    rank[a.data.level] - rank[b.data.level] ||
+    (a.data.budgetEur ?? 0) - (b.data.budgetEur ?? 0),
+);
+---
+
+<Layout lang={lang} title={`${t('nav.gear')} — ${t('site.name')}`} description={t('gear.intro')}>
+  <section class="mx-auto max-w-4xl px-6 pb-24 pt-28">
+    <h1 class="font-display text-4xl text-starlight md:text-5xl">{t('nav.gear')}</h1>
+    <p class="mt-4 max-w-2xl text-muted">{t('gear.intro')}</p>
+    <ul class="mt-10 space-y-6">
+      {items.map((e) => (
+        <li class="rounded-lg border border-white/10 bg-space-800 p-6">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 class="font-display text-2xl text-starlight">{e.data.title[lang]}</h2>
+            <span class="text-xs uppercase tracking-widest text-stellar">
+              {e.data.level === 'beginner' ? t('gear.levelBeginner') : t('gear.levelIntermediate')}
+            </span>
+          </div>
+          <p class="mt-3 text-muted">{e.data.body[lang]}</p>
+          {e.data.budgetEur ? (
+            <p class="mt-3 text-sm text-ember">{t('gear.budgetFrom')} {e.data.budgetEur} €</p>
+          ) : null}
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
