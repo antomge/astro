@@ -8,27 +8,45 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const pathname = Astro.url.pathname;
+const path = Astro.url.pathname;
 
 const otherLang: Lang = lang === 'fr' ? 'en' : 'fr';
-const switchHref = localizedPath(pathname, otherLang);
+const switchHref = localizedPath(path, otherLang);
 const homeHref = lang === 'fr' ? '/' : '/en/';
 const skyHref = lang === 'fr' ? '/sky' : '/en/sky';
 const atlasHref = lang === 'fr' ? '/atlas' : '/en/atlas';
 const gearHref = lang === 'fr' ? '/gear' : '/en/gear';
 const glossaryHref = lang === 'fr' ? '/glossary' : '/en/glossary';
+
+const isActive = (href: string) =>
+  href === homeHref ? path === href : path === href || path.startsWith(`${href}/`);
+const linkClass = (href: string) => `hover:text-stellar ${isActive(href) ? 'text-stellar' : ''}`;
+const current = (href: string) => (isActive(href) ? 'page' : undefined);
 ---
 
-<header class="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-sm">
-  <a href={homeHref} class="font-display text-xl tracking-wide text-starlight">
-    {t('site.name')}
-  </a>
-  <nav class="flex flex-wrap items-center gap-6 text-sm text-muted">
-    <a href={homeHref} class="hover:text-stellar">{t('nav.home')}</a>
-    <a href={skyHref} class="hover:text-stellar">{t('nav.skymap')}</a>
-    <a href={atlasHref} class="hover:text-stellar">{t('nav.atlas')}</a>
-    <a href={gearHref} class="hover:text-stellar">{t('nav.gear')}</a>
-    <a href={glossaryHref} class="hover:text-stellar">{t('nav.glossary')}</a>
+<header class="fixed inset-x-0 top-0 z-50 flex flex-wrap items-center justify-between gap-4 px-6 py-4 backdrop-blur-sm">
+  <a href={homeHref} class="font-display text-xl tracking-wide text-starlight">{t('site.name')}</a>
+
+  <button
+    id="nav-toggle"
+    type="button"
+    aria-controls="nav-menu"
+    aria-expanded="false"
+    aria-label={t('nav.menu')}
+    class="text-2xl leading-none text-starlight md:hidden"
+  >
+    ☰
+  </button>
+
+  <nav
+    id="nav-menu"
+    class="hidden w-full flex-col gap-4 text-sm text-muted md:flex md:w-auto md:flex-row md:flex-wrap md:items-center md:gap-6"
+  >
+    <a href={homeHref} class={linkClass(homeHref)} aria-current={current(homeHref)}>{t('nav.home')}</a>
+    <a href={skyHref} class={linkClass(skyHref)} aria-current={current(skyHref)}>{t('nav.skymap')}</a>
+    <a href={atlasHref} class={linkClass(atlasHref)} aria-current={current(atlasHref)}>{t('nav.atlas')}</a>
+    <a href={gearHref} class={linkClass(gearHref)} aria-current={current(gearHref)}>{t('nav.gear')}</a>
+    <a href={glossaryHref} class={linkClass(glossaryHref)} aria-current={current(glossaryHref)}>{t('nav.glossary')}</a>
     <a
       href={switchHref}
       class="rounded border border-white/15 px-2 py-1 text-starlight hover:border-stellar hover:text-stellar"
@@ -38,3 +56,14 @@ const glossaryHref = lang === 'fr' ? '/glossary' : '/en/glossary';
     </a>
   </nav>
 </header>
+
+<script>
+  const btn = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  btn?.addEventListener('click', () => {
+    const willOpen = menu?.classList.contains('hidden') ?? false;
+    menu?.classList.toggle('hidden', !willOpen);
+    menu?.classList.toggle('flex', willOpen);
+    btn.setAttribute('aria-expanded', String(willOpen));
+  });
+</script>
