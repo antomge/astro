@@ -4,6 +4,7 @@ export const defaultLang = 'fr';
 export const ui = {
   fr: {
     'site.name': 'Nocturne',
+    'site.tagline': "Un voyage immersif et bilingue à travers l'astronomie et l'astrophotographie.",
     'nav.home': 'Le Voyage',
     'nav.skymap': 'La Carte du ciel',
     'nav.atlas': "L'Atlas",
@@ -46,6 +47,7 @@ export const ui = {
   },
   en: {
     'site.name': 'Nocturne',
+    'site.tagline': 'An immersive, bilingual journey through astronomy and astrophotography.',
     'nav.home': 'The Journey',
     'nav.skymap': 'The Sky Map',
     'nav.atlas': 'The Atlas',

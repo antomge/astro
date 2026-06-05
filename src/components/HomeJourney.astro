@@ -11,7 +11,7 @@ const t = useTranslations(lang);
 const ordered = [...stations].sort((a, b) => a.order - b.order);
 ---
 
-<Layout lang={lang} title={`${t('site.name')} — ${t('nav.home')}`}>
+<Layout lang={lang} title={`${t('site.name')} — ${t('nav.home')}`} description={t('site.tagline')}>
   <Starfield client:idle />
 
   <!-- Barre de progression du voyage -->
