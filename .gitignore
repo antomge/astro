@@ -38,3 +38,6 @@ playwright-report/
 
 # Downloaded hero images (regenerate via: node scripts/fetch-heroes.mjs)
 public/images/stations/
+
+# Personal CV — never publish (kept out of the public site repo)
+CV.pdf
