@@ -3,8 +3,10 @@ import { test, expect } from '@playwright/test';
 test('atlas index lists objects and a detail page opens (FR)', async ({ page }) => {
   await page.goto('/atlas');
   await expect(page.getByRole('heading', { name: /Atlas/, level: 1 })).toBeVisible();
-  await page.getByRole('link', { name: /Orion/ }).first().click();
-  await expect(page).toHaveURL(/\/atlas\/orion\/?$/);
+  await Promise.all([
+    page.waitForURL(/\/atlas\/orion\/?$/),
+    page.getByRole('link', { name: /Orion/ }).first().click(),
+  ]);
   await expect(page.getByRole('heading', { name: /Orion/, level: 1 })).toBeVisible();
   await expect(page.getByText('Pour aller plus loin')).toBeVisible();
 });
