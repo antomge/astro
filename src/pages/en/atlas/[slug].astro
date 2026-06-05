@@ -25,7 +25,7 @@ const typeLabel = t(`type.${d.type}` as UIKey);
     <h1 class="mt-2 font-display text-5xl text-starlight">{d.title[lang]}</h1>
     {heroSrc && (
       <figure class="mt-8">
-        <img src={heroSrc} alt="" class="w-full rounded-lg object-cover" />
+        <img src={heroSrc} alt="" loading="lazy" decoding="async" class="aspect-[16/9] w-full rounded-lg object-cover" />
         <figcaption class="mt-1 text-[10px] text-muted/70">© {d.imageCredit}</figcaption>
       </figure>
     )}
