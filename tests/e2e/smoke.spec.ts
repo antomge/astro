@@ -10,7 +10,7 @@ test('French home shows the liftoff station and the moon widget', async ({ page 
 
 test('language switch navigates to the English home', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'EN' }).click();
+  await page.getByRole('link', { name: 'EN', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/?$/);
   await expect(page.getByRole('heading', { name: 'Look up' })).toBeVisible();
 });
