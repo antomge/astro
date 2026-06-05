@@ -41,6 +41,8 @@ export const ui = {
     'sky.viewFull': 'Voir la fiche complète',
     'station.more': 'Approfondir',
     'ui.close': 'Fermer',
+    'a11y.skip': 'Aller au contenu',
+    'nav.menu': 'Menu',
   },
   en: {
     'site.name': 'Nocturne',
@@ -81,6 +83,8 @@ export const ui = {
     'sky.viewFull': 'View full entry',
     'station.more': 'Go deeper',
     'ui.close': 'Close',
+    'a11y.skip': 'Skip to content',
+    'nav.menu': 'Menu',
   },
 } as const;
 
