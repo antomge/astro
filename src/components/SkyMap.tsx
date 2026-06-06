@@ -304,7 +304,7 @@ export default function SkyMap({ objects, labels, lang }: Props) {
         ref={canvasRef}
         role="img"
         aria-label={labels.mapLabel}
-        className="fixed inset-0 z-0 h-screen w-full touch-none cursor-grab bg-space"
+        className="fixed inset-0 z-0 h-screen w-full touch-none [cursor:url(/reticle.svg)_12_12,grab] bg-space"
       />
 
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 bg-gradient-to-t from-space/90 to-transparent px-6 pb-6 pt-16">

@@ -58,12 +58,14 @@ const current = (href: string) => (isActive(href) ? 'page' : undefined);
 </header>
 
 <script>
-  const btn = document.getElementById('nav-toggle');
-  const menu = document.getElementById('nav-menu');
-  btn?.addEventListener('click', () => {
-    const willOpen = menu?.classList.contains('hidden') ?? false;
-    menu?.classList.toggle('hidden', !willOpen);
-    menu?.classList.toggle('flex', willOpen);
-    btn.setAttribute('aria-expanded', String(willOpen));
+  document.addEventListener('astro:page-load', () => {
+    const btn = document.getElementById('nav-toggle');
+    const menu = document.getElementById('nav-menu');
+    btn?.addEventListener('click', () => {
+      const willOpen = menu?.classList.contains('hidden') ?? false;
+      menu?.classList.toggle('hidden', !willOpen);
+      menu?.classList.toggle('flex', willOpen);
+      btn.setAttribute('aria-expanded', String(willOpen));
+    });
   });
 </script>

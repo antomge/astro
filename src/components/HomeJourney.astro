@@ -1,6 +1,5 @@
 ---
 import Layout from './Layout.astro';
-import Starfield from './Starfield.tsx';
 import Station from './Station.astro';
 import { stations } from '../data/journey';
 import { useTranslations } from '../i18n/utils';
@@ -12,11 +11,17 @@ const ordered = [...stations].sort((a, b) => a.order - b.order);
 ---
 
 <Layout lang={lang} title={`${t('site.name')} — ${t('nav.home')}`} description={t('site.tagline')}>
-  <Starfield client:idle />
-
   <!-- Barre de progression du voyage -->
   <div class="fixed left-0 top-0 z-40 h-0.5 w-full bg-transparent">
     <div data-progress class="h-full origin-left scale-x-0 bg-stellar"></div>
+  </div>
+
+  <div
+    id="scroll-cue"
+    class="pointer-events-none fixed bottom-6 left-1/2 z-30 -translate-x-1/2 text-center text-muted transition-opacity duration-500"
+  >
+    <span class="text-xs uppercase tracking-[0.3em]">{t('home.scroll')}</span>
+    <div class="mt-1 animate-bounce text-lg" aria-hidden="true">↓</div>
   </div>
 
   <div class="journey">
@@ -26,4 +31,14 @@ const ordered = [...stations].sort((a, b) => a.order - b.order);
 
 <script>
   import '../scripts/journey';
+
+  document.addEventListener('astro:page-load', () => {
+    const cue = document.getElementById('scroll-cue');
+    if (!cue) return;
+    const onScroll = () => {
+      cue.style.opacity = window.scrollY > 80 ? '0' : '1';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  });
 </script>

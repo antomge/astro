@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('French sky map loads with the canvas and featured-object buttons', async ({ page }) => {
   await page.goto('/sky');
   await expect(page.getByRole('heading', { name: 'La Carte du ciel' })).toBeVisible();
-  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Carte du ciel interactive' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Orion' })).toBeVisible();
 });
 

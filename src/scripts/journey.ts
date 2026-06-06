@@ -57,5 +57,8 @@ function initJourney() {
   });
 }
 
-if (document.readyState !== 'loading') initJourney();
-else document.addEventListener('DOMContentLoaded', initJourney);
+// Re-run on every (soft) navigation; kill stale triggers first to avoid duplicates.
+document.addEventListener('astro:page-load', () => {
+  ScrollTrigger.getAll().forEach((t) => t.kill());
+  initJourney();
+});
