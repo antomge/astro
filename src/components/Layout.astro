@@ -7,6 +7,7 @@ import Header from './Header.astro';
 import Starfield from './Starfield.tsx';
 import { useTranslations, localizedPath } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   lang: Lang;
@@ -51,6 +52,7 @@ const ogLocale = lang === 'fr' ? 'fr_FR' : 'en_GB';
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={ogImage.href} />
+    <ClientRouter />
   </head>
   <body class="min-h-screen bg-space text-starlight">
     <a
