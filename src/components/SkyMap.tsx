@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { project, type Viewport, type SkyObject, type SkyLabels } from '../lib/skymap';
 import { generateStars } from '../lib/starfield';
+import { getPlanets } from '../lib/planets';
 import type { Lang } from '../i18n/ui';
 import SkyInfoPanel from './SkyInfoPanel.tsx';
 import starsJson from '../data/sky/stars.json';
@@ -50,6 +51,7 @@ export default function SkyMap({ objects, labels, lang }: Props) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const planets = getPlanets(new Date());
 
     const vp = (): Viewport => ({
       centerRa: viewRef.current.centerRa,
@@ -161,6 +163,42 @@ export default function SkyMap({ objects, labels, lang }: Props) {
         ctx.fillText(lang === 'fr' ? c.fr : c.en, p.x, p.y);
       }
       ctx.shadowBlur = 0;
+
+      // planets of the solar system (computed for today, geocentric J2000)
+      for (const pl of planets) {
+        const p = project(pl.ra, pl.dec, v);
+        if (!p.visible) continue;
+        ctx.globalAlpha = 0.5;
+        ctx.strokeStyle = pl.color;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = pl.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.font = '600 12px "Inter Variable", Inter, system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+        ctx.shadowBlur = 4;
+        ctx.fillText(lang === 'fr' ? pl.fr : pl.en, p.x + 9, p.y);
+        ctx.shadowBlur = 0;
+      }
+
+      // cardinal directions (fixed orientation guide): N up, S down, E left, W/O right
+      ctx.fillStyle = 'rgba(127, 216, 255, 0.85)';
+      ctx.font = '700 14px "Inter Variable", Inter, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+      ctx.shadowBlur = 4;
+      ctx.fillText('N', v.width / 2, 22);
+      ctx.fillText('S', v.width / 2, v.height - 22);
+      ctx.fillText('E', 22, v.height / 2);
+      ctx.fillText(lang === 'fr' ? 'O' : 'W', v.width - 22, v.height / 2);
+      ctx.shadowBlur = 0;
+
       ctx.textAlign = 'start';
       ctx.textBaseline = 'alphabetic';
     };
