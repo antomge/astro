@@ -44,6 +44,7 @@ export const ui = {
     'ui.close': 'Fermer',
     'a11y.skip': 'Aller au contenu',
     'nav.menu': 'Menu',
+    'home.scroll': 'Défiler',
   },
   en: {
     'site.name': 'Nocturne',
@@ -87,6 +88,7 @@ export const ui = {
     'ui.close': 'Close',
     'a11y.skip': 'Skip to content',
     'nav.menu': 'Menu',
+    'home.scroll': 'Scroll',
   },
 } as const;
 
