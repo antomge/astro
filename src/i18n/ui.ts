@@ -45,6 +45,10 @@ export const ui = {
     'a11y.skip': 'Aller au contenu',
     'nav.menu': 'Menu',
     'home.scroll': 'Défiler',
+    'nav.about': 'À propos',
+    'footer.by': 'par',
+    'footer.source': 'Code source',
+    'footer.credits': 'Images : NASA (domaine public) · Étoiles & constellations : d3-celestial (BSD-2) · Calculs : astronomy-engine.',
   },
   en: {
     'site.name': 'Nocturne',
@@ -89,6 +93,10 @@ export const ui = {
     'a11y.skip': 'Skip to content',
     'nav.menu': 'Menu',
     'home.scroll': 'Scroll',
+    'nav.about': 'About',
+    'footer.by': 'by',
+    'footer.source': 'Source code',
+    'footer.credits': 'Images: NASA (public domain) · Stars & constellations: d3-celestial (BSD-2) · Computations: astronomy-engine.',
   },
 } as const;
 
