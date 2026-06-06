@@ -4,6 +4,7 @@ import '@fontsource/cormorant-garamond/400.css';
 import '@fontsource/cormorant-garamond/500.css';
 import '../styles/global.css';
 import Header from './Header.astro';
+import Starfield from './Starfield.tsx';
 import { useTranslations, localizedPath } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -58,6 +59,12 @@ const ogLocale = lang === 'fr' ? 'fr_FR' : 'en_GB';
     >
       {t('a11y.skip')}
     </a>
+    <Starfield client:idle transition:persist="starfield" />
+    <div
+      aria-hidden="true"
+      class="pointer-events-none fixed inset-0 z-[60] opacity-[0.035] [background-image:url('/grain.svg')] [background-size:180px]"
+    >
+    </div>
     <Header lang={lang} />
     <main id="main" tabindex="-1">
       <slot />

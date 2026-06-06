@@ -1,6 +1,5 @@
 ---
 import Layout from './Layout.astro';
-import Starfield from './Starfield.tsx';
 import Station from './Station.astro';
 import { stations } from '../data/journey';
 import { useTranslations } from '../i18n/utils';
@@ -12,8 +11,6 @@ const ordered = [...stations].sort((a, b) => a.order - b.order);
 ---
 
 <Layout lang={lang} title={`${t('site.name')} — ${t('nav.home')}`} description={t('site.tagline')}>
-  <Starfield client:idle />
-
   <!-- Barre de progression du voyage -->
   <div class="fixed left-0 top-0 z-40 h-0.5 w-full bg-transparent">
     <div data-progress class="h-full origin-left scale-x-0 bg-stellar"></div>
