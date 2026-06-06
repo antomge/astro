@@ -1,0 +1,23 @@
+---
+import Layout from '../components/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+
+const lang = 'fr' as const;
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('nav.about')} — ${t('site.name')}`} description={t('about.lead')}>
+  <section class="mx-auto max-w-3xl px-6 pb-24 pt-28">
+    <h1 class="font-display text-4xl text-starlight md:text-5xl">{t('nav.about')}</h1>
+    <p class="mt-6 text-lg text-muted">{t('about.lead')}</p>
+
+    <h2 class="mt-12 text-sm uppercase tracking-widest text-stellar">{t('about.whoTitle')}</h2>
+    <p class="mt-2 text-starlight/90">{t('about.who')}</p>
+
+    <h2 class="mt-10 text-sm uppercase tracking-widest text-stellar">{t('about.techTitle')}</h2>
+    <p class="mt-2 text-starlight/90">{t('about.tech')}</p>
+
+    <h2 class="mt-10 text-sm uppercase tracking-widest text-ember">{t('about.creditsTitle')}</h2>
+    <p class="mt-2 text-starlight/90">{t('about.credits')}</p>
+  </section>
+</Layout>
